@@ -1,6 +1,7 @@
 import { StyleSheet, Button, View, Image } from 'react-native';
 import * as ImagePicker from "expo-image-picker";
 import { useState } from 'react';
+import * as MediaLibrary from "expo-media-library";
 
 export default function App() {
   const [image, setImage] = useState(null);
@@ -27,6 +28,12 @@ export default function App() {
       let result = await ImagePicker.launchCameraAsync();
       // add new photo to state
       if (!result.canceled) {
+        // get permission to save photo
+        let mediaLibraryPermissions = await MediaLibrary.requestPermissionsAsync();
+        // save photo with permission
+        if (mediaLibraryPermissions?.granted) {
+          await MediaLibrary.saveToLibraryAsync(result.assets[0]);
+        }
         setImage(result.assets[0]);
       } else {
         setImage(null);
