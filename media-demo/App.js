@@ -1,4 +1,4 @@
-import { StyleSheet, Button, View, Image } from 'react-native';
+import { StyleSheet, Button, View, Image, Alert } from 'react-native';
 import * as ImagePicker from "expo-image-picker";
 import { useState } from 'react';
 import * as MediaLibrary from "expo-media-library";
@@ -7,6 +7,7 @@ import MapView from 'react-native-maps';
 
 export default function App() {
   const [image, setImage] = useState(null);
+  const [location, setLocation] = useState(null);
 
   // get photo from library
   const pickImage = async () => {
@@ -43,7 +44,16 @@ export default function App() {
     }
   }
 
-  // 
+  // get location
+  const getLocation = async () => {
+    let permissions = await Location.requestForegroundPermissionsAsync();
+    if (permissions?.granted) {
+      const location = await Location.getCurrentPositionAsync();
+      setLocation(location);
+    } else {
+      Alert("Permissions to read location aren't granted");
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -58,6 +68,10 @@ export default function App() {
       {image &&
         <Image source={{uri: image.uri}} style={{ width: 200, height: 200 }}/> 
       }
+      <Button
+        title="Get location"
+        onPress={getLocation}
+      />
     </View>
   );
 }
