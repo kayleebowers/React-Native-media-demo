@@ -2,6 +2,8 @@ import { StyleSheet, Button, View, Image } from 'react-native';
 import * as ImagePicker from "expo-image-picker";
 import { useState } from 'react';
 import * as MediaLibrary from "expo-media-library";
+import * as Location from 'expo-location';
+import MapView from 'react-native-maps';
 
 export default function App() {
   const [image, setImage] = useState(null);
@@ -39,8 +41,9 @@ export default function App() {
         setImage(null);
       }
     }
-
   }
+
+  // 
 
   return (
     <View style={styles.container}>
