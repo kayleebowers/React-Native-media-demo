@@ -25,7 +25,7 @@ export default function App() {
   // take new photo
   const takePhoto = async () => {
     // get permission to access camera
-    let permissions = await ImagePicker.getCameraPermissionsAsync();
+    let permissions = await ImagePicker.requestCameraPermissionsAsync();
     if (permissions?.granted) {
       // launch camera
       let result = await ImagePicker.launchCameraAsync();
@@ -35,7 +35,7 @@ export default function App() {
         let mediaLibraryPermissions = await MediaLibrary.requestPermissionsAsync();
         // save photo with permission
         if (mediaLibraryPermissions?.granted) {
-          await MediaLibrary.saveToLibraryAsync(result.assets[0]);
+          await MediaLibrary.saveToLibraryAsync(result.assets[0].uri);
         }
         setImage(result.assets[0]);
       } else {
