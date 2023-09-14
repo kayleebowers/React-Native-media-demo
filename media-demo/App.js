@@ -72,6 +72,17 @@ export default function App() {
         title="Get location"
         onPress={getLocation}
       />
+      {location &&
+        <MapView
+        style={{width: 300, height: 200}}
+        region={{
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
+        }}
+        />
+      }
     </View>
   );
 }
